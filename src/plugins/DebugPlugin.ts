@@ -3,6 +3,7 @@ import Command from "../Command";
 import Player from "../Player";
 import Plugin from "../Plugin";
 import Server from "../Server";
+import { PacketMeta } from "minecraft-protocol";
 
 class EvalCommand implements Command {
     private server: Server;
@@ -17,12 +18,40 @@ class EvalCommand implements Command {
         );
     }
 }
+class PrintPacketsCommand implements Command {
+    private server: Server;
+    private players: Set<Player>
+    public internal = true;
+    public chatName = "printpackets";
+    constructor(server: Server) {
+        this.players = new Set();
+        this.server = server;
+    }
+    execute(player: Player, args: String[]) {
+        const self = this;
+        // function logCallbackFactory(player: Player) {
+        function logCallback(data: object, meta: PacketMeta) {
+            self.server.logger.debug(`${player.username} -> server`, data, meta.name);
+        }
+        // }
+
+        if (this.players.has(player)) {
+            this.players.delete(player);
+            player.client.removeListener("packet", logCallback);
+            player.chat([{color: "gray", text: "Debug: "}, {color: "red", text: "OFF"}]);
+        } else {
+            this.players.add(player);
+            player.client.on("packet", logCallback);
+            player.chat([{ color: "gray", text: "Debug: " }, { color: "green", text: "ON" }]);
+        }
+    }
+}
 class DebugPlugin implements Plugin {
     public commands: Command[];
     private server: Server;
     constructor(server: Server) {
         this.server = server;
-        this.commands = [new EvalCommand(server)]; // maybe ?
+        this.commands = [new EvalCommand(server), new PrintPacketsCommand(server)]; // maybe ?
 
         // this.server.on('player', player => {
         // const client = player.client;

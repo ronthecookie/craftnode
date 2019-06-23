@@ -8,7 +8,7 @@ class CommandPlugin implements Plugin {
     public commands: Command[];
     public server: Server;
     constructor(server: Server) {
-        this.commands = [new UptimeCommand(server)]
+        this.commands = [new UptimeCommand(server)];
         this.server = server;
         this.server.on("started", () => {
             this.server.commands = this.server.plugins
@@ -50,13 +50,22 @@ class CommandPlugin implements Plugin {
                 }
             });
             // for some reason the client seems to not care about this
-            // client.write('declare_commands', {
-            //   nodes: [
-            //     {
-            //       flags: {command_node_type: 0}, // root
-            //       children: [{ flags: {command_node_type: 1/*literal*/}, name: 'helpppp' }]
-            //     }
-            //   ]
+            // player.client.write("declare_commands", {
+            //     nodes: [
+            //         {
+            //             flags: { command_node_type: 0 }, // root
+            //             children: [1]
+            //         },
+            //         {
+            //             flags: {
+            //                 command_node_type: 1 /*literal*/,
+            //                 has_command: 1
+            //             },
+            //             extraNodeData: {
+            //                 name: "test"
+            //             }
+            //         }
+            //     ]
             // });
         });
     }

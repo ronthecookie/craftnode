@@ -17,6 +17,9 @@ class Player extends EventEmitter {
     constructor(client: Client) {
         super();
         this.client = client;
+        client.socket.on("end", () => {        
+            this.emit("disconnect");
+        });
         this.pos = { x: 0, y: 60, z: 0, yaw: 0, pitch: 0 };
     }
     get username() {

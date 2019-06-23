@@ -4,10 +4,12 @@ import ChatPlugin from "./ChatPlugin";
 import CommandPlugin from "./CommandPlugin";
 import DebugPlugin from "./DebugPlugin";
 import LoginPlugin from "./LoginPlugin";
+import TablistPlugin from "./TablistPlugin";
+import JoinLeaveMessagePlugin from "./JoinLeaveMessagePlugin";
 
 
 export default function getPlugins(server: Server): Plugin[] {
-    return [LoginPlugin, DebugPlugin, CommandPlugin, ChatPlugin].map(
+    return [LoginPlugin, DebugPlugin, CommandPlugin, ChatPlugin, TablistPlugin, JoinLeaveMessagePlugin].map(
         plugin => new plugin(server)
     );
 }

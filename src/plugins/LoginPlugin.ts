@@ -12,7 +12,11 @@ class LoginPlugin implements Plugin {
         this.server.server.on("login", (client: Client) => {
             // console.log('someone logged in');
             const player = new Player(client);
-            this.server.players.push(player);
+            if (Array.from(this.server.players.values()).find(p => p.uuid == player.uuid)) {
+                player.kick("Already logged in with this account");
+            }
+            this.server.players.add(player);
+            player.once("disconnect", () => {this.server.players.delete(player)});
 
             client.write("login", {
                 entityId: client.uuid,
@@ -23,38 +27,7 @@ class LoginPlugin implements Plugin {
                 maxPlayers: this.server.options.maxPlayers,
                 reducedDebugInfo: false
             });
-            client.write("player_info", {
-                action: 0,
-                data: Object.values(this.server.server.clients).map(client => {
-                    return {
-                        UUID: client.uuid,
-                        name: client.profile.name,
-                        properties: client.profile.properties,
-                        gamemode: 1,
-                        ping: client.latency
-                    };
-                })
-            });
-            [
-                ...Object.entries(this.server.server.clients).map(client => {
-                    return client[1];
-                }),
-                client
-            ].forEach(iClient => {
-                if (iClient.uuid == client.uuid) return;
-                iClient.write("player_info", {
-                    action: 0,
-                    data: [
-                        {
-                            UUID: client.uuid,
-                            name: client.profile.name,
-                            properties: client.profile.properties,
-                            gamemode: 1,
-                            ping: client.latency
-                        }
-                    ]
-                });
-            });
+
 
             client.write(
                 "position",

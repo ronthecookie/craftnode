@@ -21,7 +21,7 @@ class Server extends EventEmitter {
         player - when a new player has been added to this.players
     */
     public commands: Command[] = [];
-    public players: Player[] = [];
+    public players: Set<Player> = new Set();
     public plugins: Plugin[];
     public server: MinecraftProtocolServer;
     public options: ServerOptions;
@@ -32,13 +32,13 @@ class Server extends EventEmitter {
         this.logger = new Logger();
         this.options = options;
         this.server = mc.createServer(options);
-        this.players = []; // LoginPlugin manages this.
         // Might want to refactor this to have a difference between internal and external plugins.
         this.plugins = getPlugins(this);
         /**
          * Server finished starting
          * @event Server#started
          */
+        this.logger.info(`Server listening on ${options.host}:${options.port}`)
         this.emit("started");
     }
     broadcast(text: string | ChatMessagePart[]) {
