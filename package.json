@@ -1,6 +1,6 @@
 {
     "name": "minecraft-server",
-    "version": "1.0.0",
+    "version": "0.0.1",
     "main": "src/index.js",
     "repository": "git@github.com:ronthecookie/minecraft-server",
     "author": "RONTheCookie <ronthecookie0101@gmail.com> and Le_Futuriste <contact@lefuturiste.fr>",
