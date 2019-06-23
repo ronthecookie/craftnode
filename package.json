@@ -1,5 +1,5 @@
 {
-    "name": "minecraft-server",
+    "name": "craftnode",
     "version": "0.0.1",
     "main": "src/index.js",
     "repository": "git@github.com:ronthecookie/minecraft-server",
