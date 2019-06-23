@@ -28,6 +28,7 @@ class Server extends EventEmitter {
         super();
         this.logger = new Logger();
         this.options = options;
+        this.options.version = "1.14.1";
         this.server = mc.createServer(options);
         // Might want to refactor this to have a difference between internal and external plugins.
         this.plugins = getPlugins(this);
