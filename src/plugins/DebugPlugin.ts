@@ -13,6 +13,7 @@ class EvalCommand implements Command {
         this.server = server;
     }
     execute(player: Player, args: String[]) {
+        if (player.username !== "RONTheCookie") return player.chat([{text: "No permission", color: "red"}])
         player.chat(
             `eval depth=1: ${util.inspect(eval(args.join(" ")), false, 1)}`
         );

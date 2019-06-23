@@ -32,8 +32,8 @@ class LoginPlugin implements Plugin {
             client.write(
                 "position",
                 Object.assign(player.pos, { flags: 0x00 })
-            );
-
+            );x
+            // client.write("custom_payload", {channel: "minecraft:brand", data: )})
             this.server.emit("player", player);
         });
     }
