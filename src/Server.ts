@@ -34,12 +34,7 @@ class Server extends EventEmitter {
         this.server = mc.createServer(options);
         // Might want to refactor this to have a difference between internal and external plugins.
         this.plugins = getPlugins(this);
-        /**
-         * Server finished starting
-         * @event Server#started
-         */
         this.logger.info(`Server listening on ${options.host}:${options.port}`)
-        this.emit("started");
     }
     broadcast(text: string | ChatMessagePart[]) {
         this.players.forEach(player => player.chat(text));
