@@ -2,11 +2,13 @@ import Command from "../Command";
 import Player from "../Player";
 import Plugin from "../Plugin";
 import Server from "../Server";
+import humanizeDuration from "humanize-duration";
 
 class CommandPlugin implements Plugin {
-    public commands: Command[] = [];
+    public commands: Command[];
     public server: Server;
     constructor(server: Server) {
+        this.commands = [new UptimeCommand(server)]
         this.server = server;
         this.server.on("started", () => {
             this.server.commands = this.server.plugins
@@ -33,7 +35,12 @@ class CommandPlugin implements Plugin {
                     // we have to create this execute method
                     cmd.execute(player, msg.split(" ").slice(1));
                 } catch (error) {
-                    this.server.logger.error(`Error while executing command ${cmdName} for ${player.username}:`, error);
+                    this.server.logger.error(
+                        `Error while executing command ${cmdName} for ${
+                            player.username
+                        }:`,
+                        error
+                    );
                     player.chat([
                         {
                             text: `Error while executing command: ${error}\nCheck console for the full stack trace`,
@@ -64,5 +71,7 @@ class UptimeCommand implements Command {
     constructor(server: Server) {
         this.server = server;
     }
-    execute(player: Player, args: String[]) {}
+    execute(player: Player, args: String[]) {
+        player.chat("Uptime: " + humanizeDuration(process.uptime() * 1000));
+    }
 }

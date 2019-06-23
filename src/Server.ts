@@ -1,12 +1,15 @@
 import EventEmitter from "events";
-import mc, { Server as MinecraftProtocolServer, ServerOptions as MinecraftProtocolServerOptions } from "minecraft-protocol";
+import mc, {
+    Server as MinecraftProtocolServer,
+    ServerOptions as MinecraftProtocolServerOptions
+} from "minecraft-protocol";
 import Command from "./Command";
 import { Logger } from "./Logger";
 import Player, { ChatMessagePart } from "./Player";
 import Plugin from "./Plugin";
 import getPlugins from "./plugins";
 import { chatMessagePartsToString } from "./Util";
-
+import pkg from "../package.json";
 interface ServerOptions extends MinecraftProtocolServerOptions {
     // plugins: Plugin[],
     encryption?: boolean;
@@ -42,6 +45,13 @@ class Server extends EventEmitter {
         this.players.forEach(player => player.chat(text));
         if (typeof text == "string") this.logger.info("Chat:", text);
         else this.logger.info("Chat:", chatMessagePartsToString(text));
+    }
+
+    get version(): string {
+        return pkg.version;
+    }
+    get name(): string {
+        return pkg.name;
     }
 }
 
