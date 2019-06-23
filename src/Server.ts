@@ -32,6 +32,7 @@ class Server extends EventEmitter {
         // Might want to refactor this to have a difference between internal and external plugins.
         this.plugins = getPlugins(this);
         this.logger.info(`Server listening on ${options.host}:${options.port}`);
+        this.emit("started");
     }
 
     broadcast(text: string | ChatMessagePart[]) {
