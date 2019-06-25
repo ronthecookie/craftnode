@@ -8,7 +8,11 @@ class CommandPlugin implements Plugin {
     public commands: Command[];
     public server: Server;
     constructor(server: Server) {
-        this.commands = [new UptimeCommand(server)];
+        this.commands = [
+            new UptimeCommand(server),
+            new StopCommand(server),
+            new RestartCommand(server)
+        ];
         this.server = server;
         this.server.on("started", () => {
             this.server.commands = this.server.plugins
@@ -82,5 +86,34 @@ class UptimeCommand implements Command {
     }
     execute(player: Player, args: String[]) {
         player.chat("Uptime: " + humanizeDuration(process.uptime() * 1000));
+    }
+}
+
+class StopCommand implements Command {
+    private server: Server;
+    public chatName = "stop";
+    public internal = true;
+    constructor(server: Server) {
+        this.server = server;
+    }
+    execute(player: Player, args: String[]) {
+        process.exit()
+    }
+}
+
+class RestartCommand implements Command {
+    private server: Server;
+    public chatName = "restart";
+    public internal = true;
+    constructor(server: Server) {
+        this.server = server;
+    }
+    execute(player: Player, args: String[]) {
+        require("child_process").spawn(process.argv.shift(), process.argv, {
+            cwd: process.cwd(),
+            detached : true,
+            stdio: "inherit"
+        });
+        process.exit()
     }
 }
