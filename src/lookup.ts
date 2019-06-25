@@ -1,7 +1,7 @@
 // Lookup most clientbound packets.
 
 import mcData from "minecraft-data";
-const protocol = mcData("1.14").protocol;
+const protocol = mcData("1.14.1").protocol;
 const hex = process.argv[process.argv.length - 1].toLowerCase().replace("0x", "");
 if (!/^[0-F]{2}$/i.test(hex)) {
     console.error(`Invalid argument!

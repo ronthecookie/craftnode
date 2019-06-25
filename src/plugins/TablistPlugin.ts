@@ -41,7 +41,6 @@ class TablistPlugin implements Plugin {
                 });
             });
             player.once("disconnect", () => {
-                console.log(player.username,"Disconnect")
                 server.players.forEach(p => {
                     p.client.write("player_info", {
                         action: 4,
