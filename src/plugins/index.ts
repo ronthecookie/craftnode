@@ -6,11 +6,18 @@ import DebugPlugin from "./DebugPlugin";
 import LoginPlugin from "./LoginPlugin";
 import TablistPlugin from "./TablistPlugin";
 import JoinLeaveMessagePlugin from "./JoinLeaveMessagePlugin";
+import ConsoleInputPlugin from "./ConsoleInputPlugin";
 import WorldPlugin from "./WorldPlugin";
 
-
 export default function getPlugins(server: Server): Plugin[] {
-    return [LoginPlugin, DebugPlugin, CommandPlugin, ChatPlugin, TablistPlugin, JoinLeaveMessagePlugin, WorldPlugin].map(
-        plugin => new plugin(server)
-    );
+    return [
+        LoginPlugin,
+        DebugPlugin,
+        CommandPlugin,
+        ChatPlugin,
+        TablistPlugin,
+        JoinLeaveMessagePlugin,
+        ConsoleInputPlugin,
+        WorldPlugin
+    ].map(plugin => new plugin(server));
 }
