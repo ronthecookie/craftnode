@@ -7,6 +7,8 @@ import Player, { ChatMessagePart } from "./Player";
 import Plugin from "./Plugin";
 import getPlugins from "./plugins";
 import { chatMessagePartsToString } from "./Util";
+import { World } from "prismarine-world";
+import { getVoidWorld } from "./World";
 interface ServerOptions extends MinecraftProtocolServerOptions {
     // plugins: Plugin[],
     encryption?: boolean;
@@ -23,12 +25,13 @@ class Server extends EventEmitter {
     public server: MinecraftProtocolServer;
     public options: ServerOptions;
     public logger: Logger;
-
+    public world: World;
     constructor(options: ServerOptions) {
         super();
         this.logger = new Logger();
         this.options = options;
         this.options.version = "1.14.1";
+        this.world = getVoidWorld();
         this.server = mc.createServer(options);
         // Might want to refactor this to have a difference between internal and external plugins.
         this.plugins = getPlugins(this);
