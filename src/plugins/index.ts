@@ -17,7 +17,7 @@ export default function getPlugins(server: Server): Plugin[] {
         ChatPlugin,
         TablistPlugin,
         JoinLeaveMessagePlugin,
-        ConsoleInputPlugin,
-        WorldPlugin
+        ConsoleInputPlugin
+        // WorldPlugin
     ].map(plugin => new plugin(server));
 }
